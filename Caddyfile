@@ -1,11 +1,10 @@
-# Caddy — reverse proxy + HTTPS automatique (Let's Encrypt).
-# Le domaine et l'email sont injectés depuis .env via docker-compose.
+# Caddy — reverse proxy interne, HTTP simple (PAS de TLS).
+# Le HTTPS est géré en amont par Cloudflare Tunnel : Cloudflare termine le TLS
+# à sa périphérie, le tunnel forwarde en HTTP vers ce Caddy, qui route ensuite
+# vers le frontend et le backend. Caddy n'a donc pas besoin de Let's Encrypt.
 
-{$DOMAIN} {
+:80 {
 	encode gzip
-
-	# Certificat TLS automatique
-	tls {$ACME_EMAIL}
 
 	# Routes API → backend Fastify
 	handle /api/* {
@@ -17,5 +16,3 @@
 		reverse_proxy frontend:3000
 	}
 }
-
-# Redirection HTTP → HTTPS gérée automatiquement par Caddy.

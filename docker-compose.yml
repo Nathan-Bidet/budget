@@ -46,12 +46,10 @@ services:
     depends_on:
       - frontend
       - backend
+    # HTTP simple : le HTTPS est géré par Cloudflare Tunnel en amont.
+    # Le tunnel doit pointer sur http://<IP_privée_VM>:${CADDY_HTTP_PORT}
     ports:
-      - "80:80"
-      - "443:443"
-    environment:
-      DOMAIN: ${DOMAIN}
-      ACME_EMAIL: ${ACME_EMAIL}
+      - "${CADDY_HTTP_PORT:-8080}:80"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
