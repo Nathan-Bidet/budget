@@ -41,7 +41,11 @@ services:
       - "3000"
 
   caddy:
-    image: caddy:2-alpine
+    # Image custom : le Caddyfile est copié dedans (voir caddy/Dockerfile),
+    # plus de bind-mount de fichier (incompatible avec le déploiement Git).
+    build:
+      context: .
+      dockerfile: caddy/Dockerfile
     restart: unless-stopped
     depends_on:
       - frontend
@@ -51,7 +55,6 @@ services:
     ports:
       - "${CADDY_HTTP_PORT:-8080}:80"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
 
