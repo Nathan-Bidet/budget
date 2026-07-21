@@ -1,0 +1,21 @@
+# Caddy — reverse proxy + HTTPS automatique (Let's Encrypt).
+# Le domaine et l'email sont injectés depuis .env via docker-compose.
+
+{$DOMAIN} {
+	encode gzip
+
+	# Certificat TLS automatique
+	tls {$ACME_EMAIL}
+
+	# Routes API → backend Fastify
+	handle /api/* {
+		reverse_proxy backend:4000
+	}
+
+	# Tout le reste → frontend Next.js
+	handle {
+		reverse_proxy frontend:3000
+	}
+}
+
+# Redirection HTTP → HTTPS gérée automatiquement par Caddy.

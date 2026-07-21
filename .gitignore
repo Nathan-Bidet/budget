@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Env
+.env
+.env.local
+.env*.local
+
+# Builds
+.next/
+out/
+dist/
+build/
+
+# Prisma
+backend/prisma/*.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Docker / Caddy volumes
+caddy_data/
+caddy_config/
+postgres_data/
